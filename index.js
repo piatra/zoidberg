@@ -19,8 +19,8 @@ require("sdk/ui/button/action").ActionButton({
 
 function handleClick(state) {
   text_entry.show({
-    width: 600,
-    height: 400
+    width: 700,
+    height: 600
   });
 }
 

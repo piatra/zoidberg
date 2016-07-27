@@ -11,6 +11,19 @@ function timestampToDays(value) {
   return parseFloat(r.toFixed(2));
 }
 
+function humanizeTimestamps(value) {
+  var days = parseInt(timestampToDays(value));
+  if (days === 0) {
+    return parseInt((Date.now() - value / 1e3) / (1e3 * 3600)) + " hours ago";
+  }
+
+  if (days === 1) {
+    return days + " day ago";
+  }
+
+  return days + " days ago";
+}
+
 self.port.on("recommendations", function onShow(links) {
   var ul = document.getElementById("container");
   ul.innerHTML = "";
@@ -19,8 +32,7 @@ self.port.on("recommendations", function onShow(links) {
 
   links = links
             .map(e => {
-              e[4] = timestampToDays(e[4]);
-              e[1] = decay(e[1], [e[3], e[4], e[5]], [1, 1, 0.5]);
+              e[1] = decay(e[1], [e[3], timestampToDays(e[4]), e[5]], [1, 1, 0.5]);
               console.log(e[1], e[2]);
               return e;
             })
@@ -60,17 +72,19 @@ function createElement(data) {
   var el = document.createElement("li");
   var a = document.createElement("a");
   var p = document.createElement("p");
+  var time = document.createElement("time");
   var title = data[2];
 
   if (!title || title === "null") {
     title = data[0];
   }
 
-  p.innerHTML = " score:" + data[1] + " age:" + data[4] + " visits:" + data[3];
+  time.innerHTML = humanizeTimestamps(data[4]);
+  p.innerHTML = " score:" + data[1] + " visits:" + data[3];
+  p.appendChild(time);
 
   a.innerHTML = title;
   a.href = data[0];
-  a.target = "_blank";
   el.appendChild(a);
   el.appendChild(p);
 

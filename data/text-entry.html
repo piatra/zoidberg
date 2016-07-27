@@ -1,40 +1,111 @@
 <html>
 <head>
     <style type="text/css" media="all">
+      html {
+        box-sizing: border-box;
+      }
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+
       body {
-        background-color: #f9f9f9;
+        background-color: #f0f0f0;
         font-size: 16px;
-        width: 500px;
-      }
-      ul li {
-        margin: .5rem 0;
-        border-bottom: 1px solid #555;
-        list-style: none;
+        width: 100%;
+        overflow-x: hidden;
       }
 
-      ul li a {
+      ol {
+        width: 98%;
+        padding: 0 0 0 2rem;
+      }
+
+      ol li {
+        width: 100%;
+        padding: .5rem 0;
+        margin: 0;
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #fff;
+      }
+
+      ol li a {
         color: #222;
+        text-decoration: none;
       }
 
-      ul li:nth-child(-n+3) {
+      ol li a:after {
+        display: block;
+        content: attr(href);
+        font-size: .8rem;
+        color: blue;
+      }
+
+      ol li:nth-child(-n+3) a:after {
+        display: none;
+      }
+
+      ol li:nth-child(-n+3) {
         background: #fff;
         display: inline-block;
-        width: 25%;
+        width: 30%;
         margin: 0 1%;
-        padding: .5rem 0;
+        padding: .5rem .1rem;
         text-align: center;
-        height: 120px;
-        max-height: 120px;
+        height: 150px;
+        max-height: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
         border-radius: 3px;
         border: 3px solid rgba(0,0,0,.2);
       }
+
+      ol li:nth-child(-n+3) a {
+        font-size: .9rem;
+      }
+
+      ol li p {
+        color: #555;
+        font-size: .8rem;
+      }
+
+      ol li:nth-child(n+3) time {
+        float: right;
+        margin-right: 1rem;
+      }
+
+      h3 {
+        margin-top: 15%;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
-    <ul id="container">
-      <h3>Loading...</h3>
-    </ul>
+    <ol id="container">
+      <h3>Loading recommendations...</h3>
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 3 hours ago</p>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 3 hours ago</p>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
+        <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
+      <!--</li>-->
+    </ol>
   </body>
 </html>
