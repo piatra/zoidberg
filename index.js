@@ -10,9 +10,9 @@ require("sdk/ui/button/action").ActionButton({
   id: "show-panel",
   label: "Show Panel",
   icon: {
-    "16": "./icon-16.png",
-    "32": "./icon-32.png",
-    "64": "./icon-64.png"
+    "16": "./icon-16-2.png",
+    "32": "./icon-32-2.png",
+    "64": "./icon-64-2.png"
   },
   onClick: handleClick
 });
@@ -65,7 +65,7 @@ function computeScore(values) {
   });
 
   return recentHistory.map(function(e, i) {
-    return [e[1], scores[i], e[2], e[3], e[4], URL(e[1]).search.length]; // url, score, title, visit count, date
+    return [e[1], scores[i], e[2], e[3], e[4], URL(e[1]).search.length, URL(e[1]).host]; // url, score, title, visit count, date
   });
 }
 

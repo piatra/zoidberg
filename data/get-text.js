@@ -26,6 +26,17 @@ self.port.on("recommendations", function onShow(links) {
             })
             .filter(e => e[1] > 0 && e[2]) // positive score && title !== null
             .sort(function(a, b) { return b[1] - a[1]; })
+            .filter((e, idx, arr) => { // filter out consecutive links from same host
+              if (idx === 0) {
+                return 1;
+              }
+
+              if (arr[idx - 1][6] === e[6]) { // same host
+                return 0;
+              }
+
+              return 1;
+            })
             .map(e => {
               e[1] = parseFloat(e[1].toFixed(3));
               return e;
