@@ -85,6 +85,7 @@ function createElement(data) {
 
   a.innerHTML = title;
   a.href = data[0];
+  a.target = "_blank";
   el.appendChild(a);
   el.appendChild(p);
 
