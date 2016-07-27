@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-
 var data = require("sdk/self").data;
 var text_entry = require("sdk/panel").Panel({
   contentURL: data.url("text-entry.html"),
@@ -20,17 +18,13 @@ require("sdk/ui/button/action").ActionButton({
 });
 
 function handleClick(state) {
-  text_entry.show();
+  text_entry.show({
+    width: 600,
+    height: 400
+  });
 }
 
 text_entry.on("show", function() {
-  //db.allHistory().then(links => {
-    //console.log("index", links);
-    //text_entry.port.emit("show", links);
-  //}).catch(e => {
-    //console.log("error", e);
-  //});
-
   Promise.all([db.allHistory(), db.recentHistory()])
          .then(computeScore)
          .then(displayRecommendations);
@@ -51,6 +45,16 @@ function computeScore(values) {
   [allHistory, recentHistory] = values;
   var domainMap = countDomains(allHistory);
 
+  // Validate that all history is made up of valid URLs.
+  recentHistory = recentHistory.filter(e => {
+    try {
+      return URL(e[1]).host.length > 0;
+    } catch (e) {
+      console.log(e[1], "invalid url");
+      return 0;
+    }
+  });
+
   var tf, idf, tfidf, url;
   var scores = recentHistory.map(function(entry) {
     url = URL(entry[1]);
@@ -61,7 +65,7 @@ function computeScore(values) {
   });
 
   return recentHistory.map(function(e, i) {
-    return [e[1], scores[i], e[2], e[3], e[4]]; // url, score, title, visit count, date
+    return [e[1], scores[i], e[2], e[3], e[4], URL(e[1]).search.length]; // url, score, title, visit count, date
   });
 }
 

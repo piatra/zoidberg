@@ -1,15 +1,40 @@
 <html>
 <head>
     <style type="text/css" media="all">
-      textarea {
-        margin: 10px;
-      }
       body {
-        background-color: gray;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        width: 500px;
+      }
+      ul li {
+        margin: .5rem 0;
+        border-bottom: 1px solid #555;
+        list-style: none;
+      }
+
+      ul li a {
+        color: #222;
+      }
+
+      ul li:nth-child(-n+3) {
+        background: #fff;
+        display: inline-block;
+        width: 25%;
+        margin: 0 1%;
+        padding: .5rem 0;
+        text-align: center;
+        height: 120px;
+        max-height: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 3px;
+        border: 3px solid rgba(0,0,0,.2);
       }
     </style>
   </head>
   <body>
-    <ul id="container"></ul>
+    <ul id="container">
+      <h3>Loading...</h3>
+    </ul>
   </body>
 </html>
