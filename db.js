@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 const {Ci, Cu} = require("chrome");
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 

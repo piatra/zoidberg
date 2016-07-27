@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var data = require("sdk/self").data;
 var text_entry = require("sdk/panel").Panel({
   contentURL: data.url("text-entry.html"),
@@ -29,7 +31,9 @@ text_entry.on("show", function() {
     //console.log("error", e);
   //});
 
-  Promise.all([db.allHistory(), db.recentHistory()]).then(computeScore);
+  Promise.all([db.allHistory(), db.recentHistory()])
+         .then(computeScore)
+         .then(displayRecommendations);
 });
 
 text_entry.port.on("text-entered", function (text) {
@@ -37,38 +41,36 @@ text_entry.port.on("text-entered", function (text) {
   //text_entry.hide();
 });
 
+function displayRecommendations(urls) {
+  console.log("displayRecommendations", urls);
+  text_entry.port.emit("recommendations", urls);
+}
+
 function computeScore(values) {
-  console.log("computing score", values);
   var allHistory, recentHistory;
   [allHistory, recentHistory] = values;
   var domainMap = countDomains(allHistory);
 
-  console.log("all history", allHistory);
-  console.log("recentHistory", recentHistory);
-
   var tf, idf, tfidf, url;
   var scores = recentHistory.map(function(entry) {
-    console.log(entry);
     url = URL(entry[1]);
     tf = entry[3]; //domainMap.get(url.host);
     idf = Math.log(domainMap.size / domainMap.get(url.host));
 
-    console.log(tf, idf, domainMap, url.host);
     return tf * idf;
   });
 
-  console.log("scores", scores);
+  return recentHistory.map(function(e, i) {
+    return [e[1], scores[i], e[2], e[3], e[4]]; // url, score, title, visit count, date
+  });
 }
 
 function countDomains(allHistory) {
-  console.log("count domains 1");
   var domainMap = new Map();
   var url;
   var value;
-  console.log("count domains 2", allHistory);
 
   allHistory.forEach(function(entry) {
-    console.log("count domains", entry);
     try {
       url = URL(entry[1]);
       value = domainMap.get(url.host);
