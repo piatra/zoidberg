@@ -25,6 +25,7 @@ function handleClick(state) {
 }
 
 text_entry.on("show", function() {
+
   Promise.all([db.allHistory(), db.recentHistory()])
          .then(computeScore)
          .then(displayRecommendations);
@@ -65,7 +66,7 @@ function computeScore(values) {
   });
 
   return recentHistory.map(function(e, i) {
-    return [e[1], scores[i], e[2], e[3], e[4], URL(e[1]).search.length, URL(e[1]).host]; // url, score, title, visit count, date
+    return [e[1], scores[i], e[2], e[3], e[4], URL(e[1]).search.length, URL(e[1]).host, e[6]]; // url, score, title, visit count, date, host, bookmark
   });
 }
 

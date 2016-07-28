@@ -24,19 +24,26 @@ function humanizeTimestamps(value) {
   return days + " days ago";
 }
 
-self.port.on("recommendations", function onShow(links) {
+var EPS = 0.002;
+
+self.port.on("recommendations", function onShow(links, perf) {
   var ul = document.getElementById("container");
+
   ul.innerHTML = "";
 
   console.log("links b4", links);
 
   links = links
             .map(e => {
-              e[1] = decay(e[1], [e[3], timestampToDays(e[4]), e[5]], [1, 1, 0.5]);
+              if (e[7]) { // bookmark
+                e[1] = decay(e[1], [e[3], timestampToDays(e[4]), e[5]], [0.1, 0.1, 0.1]);
+              } else {
+                e[1] = decay(e[1], [e[3], timestampToDays(e[4]), e[5]], [1, 1, 0.5]);
+              }
               console.log(e[1], e[2]);
               return e;
             })
-            .filter(e => e[1] > 0 && e[2]) // positive score && title !== null
+            .filter(e => e[1] > EPS && e[2]) // positive score && title !== null
             .sort(function(a, b) { return b[1] - a[1]; })
             .filter((e, idx, arr) => { // filter out consecutive links from same host
               if (idx === 0) {
@@ -79,8 +86,12 @@ function createElement(data) {
     title = data[0];
   }
 
+  if (data[7]) { // bookmark
+    el.classList.add("bookmark");
+  }
+
   time.innerHTML = humanizeTimestamps(data[4]);
-  p.innerHTML = " score:" + data[1] + " visits:" + data[3];
+  p.innerHTML = " score:" + data[1] + " visits:" + data[3] + " ";
   p.appendChild(time);
 
   a.innerHTML = title;

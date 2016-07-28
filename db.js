@@ -13,9 +13,12 @@ const browsingHistory = `SELECT a.visit_date AS last_visited,
 
 const recentHistory = `SELECT a.visit_date AS last_visited,
                               b.url, b.title, b.visit_count,
-                              b.last_visit_date FROM moz_historyvisits a
+                              b.last_visit_date, b.rev_host,
+                              c.title as bookmark
+                              FROM moz_historyvisits a
                               JOIN moz_places b ON a.id = b.id
-                              WHERE datetime(b.last_visit_date / 1000 / 1000, 'unixepoch') > datetime('now', '-3 day')`;
+                              LEFT JOIN (SELECT title, fk from moz_bookmarks) c on c.fk = a.id
+                              WHERE datetime(b.last_visit_date / 1000 / 1000, 'unixepoch') > datetime('now', '-5 day');`;
 
 function executeQuery(aSql, aOptions = {}) {
   let {columns, params, callback} = aOptions;

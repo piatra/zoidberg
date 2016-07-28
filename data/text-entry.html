@@ -28,6 +28,14 @@
         border-top: 1px solid #fff;
       }
 
+      ol li.bookmark {
+        font-weight: bold;
+      }
+
+      ol li.bookmark:before {
+        content: "\1F3F7";
+      }
+
       ol li a {
         color: #222;
         text-decoration: none;
@@ -82,7 +90,7 @@
   <body>
     <ol id="container">
       <h3>Loading recommendations...</h3>
-      <!--<li>-->
+      <!--<li class="bookmark">-->
         <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
         <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
       <!--</li>-->
@@ -98,7 +106,7 @@
         <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
         <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
       <!--</li>-->
-      <!--<li>-->
+      <!--<li class="bookmark">-->
         <!--<a href="#">Mozilla mozillamozillamozilla</a>-->
         <!--<p>score: 1 visits: 1 <time>3 hours ago</time></p>-->
       <!--</li>-->
